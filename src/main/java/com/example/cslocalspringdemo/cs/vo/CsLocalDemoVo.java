@@ -56,4 +56,7 @@ public class CsLocalDemoVo extends Model<CsLocalDemoVo> {
     //Add
     @ApiModelProperty(value = "地址")
     private String address;
+
+    @ApiModelProperty(value = "等级")
+    private String levelName;
 }
