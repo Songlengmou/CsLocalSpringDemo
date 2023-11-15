@@ -54,4 +54,10 @@ public class CsLocalDemo extends Model<CsLocalDemo> {
     @ApiModelProperty(value = "年龄")
     private Integer userAge;
 
+    @ApiModelProperty(value = "开始时间")
+    private LocalDateTime startDate;
+
+    @ApiModelProperty(value = "结束时间")
+    private LocalDateTime endDate;
+
 }

@@ -19,7 +19,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
+import java.time.format.DateTimeFormatter;
+
+import static java.util.Objects.isNull;
 
 /**
  * <p>
@@ -36,10 +38,28 @@ public class CsLocalDemoServiceImpl extends ServiceImpl<CsLocalDemoMapper, CsLoc
 
     @Override
     public IPage<CsLocalDemoVo> queryPageList(CsLocalDemoDto csLocalDemoDto) {
+//        List<String> storeList = new ArrayList<>();
+//        if (!isNull(csLocalDemoDto.getStoreNo())) {
+//            storeList = Arrays.asList(csLocalDemoDto.getStoreNo().split(","));
+//        }
+
+        String startDate = null, endDate = null;
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+        if (!isNull(csLocalDemoDto.getStartDate())) {
+            startDate = csLocalDemoDto.getStartDate().format(formatter);
+        }
+        if (!isNull(csLocalDemoDto.getStartDate())) {
+            endDate = csLocalDemoDto.getEndDate().format(formatter);
+        }
+
         TableInfoHelper.initTableInfo(new MapperBuilderAssistant(new MybatisConfiguration(), ""), CsLocalDemoVo.class);
         Wrapper<CsLocalDemoVo> wrapper = Wrappers.<CsLocalDemoVo>query().lambda()
+                //获取所有的storeNo，在这里只是一个显示用法，之后根据自己项目情况编写
+//                .in(!CollectionUtils.isEmpty(storeList), CsLocalDemoVo::getStoreNo, storeList)
                 .eq(!StringUtil.isEmpty(csLocalDemoDto.getUserName()), CsLocalDemoVo::getUserName, csLocalDemoDto.getUserName())
-                .like(!Objects.isNull(csLocalDemoDto.getUserAge()), CsLocalDemoVo::getUserAge, csLocalDemoDto.getUserAge());
+                .like(!isNull(csLocalDemoDto.getUserAge()), CsLocalDemoVo::getUserAge, csLocalDemoDto.getUserAge())
+                .ge(!StringUtil.isEmpty(startDate), CsLocalDemoVo::getStartDate, startDate)
+                .le(!StringUtil.isEmpty(endDate), CsLocalDemoVo::getEndDate, endDate);
         return this.baseMapper.queryPageList(ConventPage.getPage(csLocalDemoDto), wrapper);
     }
 

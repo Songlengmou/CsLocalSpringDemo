@@ -53,6 +53,12 @@ public class CsLocalDemoVo extends Model<CsLocalDemoVo> {
     @ApiModelProperty(value = "年龄")
     private Integer userAge;
 
+    @ApiModelProperty(value = "开始时间")
+    private LocalDateTime startDate;
+
+    @ApiModelProperty(value = "结束时间")
+    private LocalDateTime endDate;
+
     //Add
     @ApiModelProperty(value = "地址")
     private String address;
