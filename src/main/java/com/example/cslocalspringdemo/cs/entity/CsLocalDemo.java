@@ -1,6 +1,7 @@
 package com.example.cslocalspringdemo.cs.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
 
@@ -55,9 +56,11 @@ public class CsLocalDemo extends Model<CsLocalDemo> {
     private Integer userAge;
 
     @ApiModelProperty(value = "开始时间")
+    @TableField("startDate")
     private LocalDateTime startDate;
 
     @ApiModelProperty(value = "结束时间")
+    @TableField("endDate")
     private LocalDateTime endDate;
 
 }

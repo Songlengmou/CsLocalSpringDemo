@@ -1,6 +1,8 @@
 package com.example.cslocalspringdemo.cs.controller;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.example.cslocalspringdemo.common.Util.BeanUtil;
 import com.example.cslocalspringdemo.common.Util.StringUtil;
 import com.example.cslocalspringdemo.common.page.ConventPage;
@@ -9,8 +11,10 @@ import com.example.cslocalspringdemo.common.result.Response;
 import com.example.cslocalspringdemo.cs.dto.CsLocalDemoDto;
 import com.example.cslocalspringdemo.cs.entity.CsLocalDemo;
 import com.example.cslocalspringdemo.cs.entity.CsLocalDemoDetail;
+import com.example.cslocalspringdemo.cs.mapper.CsLocalDemoDetailMapper;
 import com.example.cslocalspringdemo.cs.service.CsLocalDemoDetailService;
 import com.example.cslocalspringdemo.cs.service.CsLocalDemoService;
+import com.example.cslocalspringdemo.cs.vo.CsLocalDemoDetailVo;
 import com.example.cslocalspringdemo.cs.vo.CsLocalDemoVo;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -44,6 +48,9 @@ public class CsLocalDemoController {
 
     @Resource
     private CsLocalDemoDetailService csLocalDemoDetailService;
+
+    @Resource
+    private CsLocalDemoDetailMapper csLocalDemoDetailMapper;
 
     /**
      * 新增
@@ -103,10 +110,25 @@ public class CsLocalDemoController {
      * 明细
      */
     @GetMapping("/detail/{id}")
-    @ApiOperation(value = "明细", notes = "")
+    @ApiOperation(value = "明细1", notes = "")
     public Response<CsLocalDemoVo> getBrokerById(@PathVariable Long id) {
         CsLocalDemoVo csUserVo = csLocalDemoService.getListById(id);
         return Response.ok(csUserVo);
+    }
+
+    @GetMapping("/detailTwo/{id}")
+    @ApiOperation(value = "明细2", notes = "")
+    public Response<CsLocalDemoVo> getBrokerTwoById(@PathVariable Long id) {
+        checkArgument(!Objects.isNull(id), "id不能为空");
+        CsLocalDemo csLocalDemoById = csLocalDemoService.getById(id);
+        CsLocalDemoVo csLocalDemoVo = BeanUtil.copy(csLocalDemoById, CsLocalDemoVo.class);
+        //detail
+        Wrapper<CsLocalDemoDetail> wrapper = Wrappers.<CsLocalDemoDetail>query().lambda()
+                .eq(CsLocalDemoDetail::getCsLocalDemoId, csLocalDemoById.getId());
+        List<CsLocalDemoDetail> csLocalDemoDetails = csLocalDemoDetailMapper.selectList(wrapper);
+        List<CsLocalDemoDetailVo> csLocalDemoDetailVos = BeanUtil.copyList(csLocalDemoDetails, CsLocalDemoDetailVo.class);
+        csLocalDemoVo.setCsLocalDemoDetailVos(csLocalDemoDetailVos);
+        return Response.ok(csLocalDemoVo);
     }
 
     /**

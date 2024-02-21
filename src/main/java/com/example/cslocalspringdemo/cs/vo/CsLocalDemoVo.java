@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -65,4 +66,6 @@ public class CsLocalDemoVo extends Model<CsLocalDemoVo> {
 
     @ApiModelProperty(value = "等级")
     private String levelName;
+
+    private List<CsLocalDemoDetailVo> csLocalDemoDetailVos;
 }
