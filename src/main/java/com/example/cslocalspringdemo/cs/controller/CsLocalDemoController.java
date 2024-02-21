@@ -125,7 +125,12 @@ public class CsLocalDemoController {
         //detail
         Wrapper<CsLocalDemoDetail> wrapper = Wrappers.<CsLocalDemoDetail>query().lambda()
                 .eq(CsLocalDemoDetail::getCsLocalDemoId, csLocalDemoById.getId());
-        List<CsLocalDemoDetail> csLocalDemoDetails = csLocalDemoDetailMapper.selectList(wrapper);
+        //1.使用Mapper
+        // 若单条数据则使用csLocalDemoDetailMapper.selectOne(wrapper),若多条数据则使用.selectList(wrapper)
+//        List<CsLocalDemoDetail> csLocalDemoDetails = csLocalDemoDetailMapper.selectList(wrapper);
+        //2.使用Service
+        // 若单条数据则使用csLocalDemoDetailService.getOne(wrapper),若多条数据则使用.list(wrapper)
+        List<CsLocalDemoDetail> csLocalDemoDetails = csLocalDemoDetailService.list(wrapper);
         List<CsLocalDemoDetailVo> csLocalDemoDetailVos = BeanUtil.copyList(csLocalDemoDetails, CsLocalDemoDetailVo.class);
         csLocalDemoVo.setCsLocalDemoDetailVos(csLocalDemoDetailVos);
         return Response.ok(csLocalDemoVo);
