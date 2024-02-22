@@ -1,6 +1,7 @@
 package com.example.cslocalspringdemo.cs.controller;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.example.cslocalspringdemo.common.Util.BeanUtil;
@@ -123,8 +124,12 @@ public class CsLocalDemoController {
         CsLocalDemo csLocalDemoById = csLocalDemoService.getById(id);
         CsLocalDemoVo csLocalDemoVo = BeanUtil.copy(csLocalDemoById, CsLocalDemoVo.class);
         //detail
-        Wrapper<CsLocalDemoDetail> wrapper = Wrappers.<CsLocalDemoDetail>query().lambda()
-                .eq(CsLocalDemoDetail::getCsLocalDemoId, csLocalDemoById.getId());
+//        Wrapper<CsLocalDemoDetail> wrapper = Wrappers.<CsLocalDemoDetail>query().lambda()
+//                .eq(CsLocalDemoDetail::getCsLocalDemoId, csLocalDemoById.getId());
+        //或
+        QueryWrapper<CsLocalDemoDetail> wrapper=new QueryWrapper<>();
+        wrapper.eq("cs_local_demo_id", csLocalDemoById.getId());
+
         //1.使用Mapper
         // 若单条数据则使用csLocalDemoDetailMapper.selectOne(wrapper),若多条数据则使用.selectList(wrapper)
 //        List<CsLocalDemoDetail> csLocalDemoDetails = csLocalDemoDetailMapper.selectList(wrapper);
