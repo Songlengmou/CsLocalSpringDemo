@@ -39,7 +39,7 @@ public class CsLocalDemoServiceImpl extends ServiceImpl<CsLocalDemoMapper, CsLoc
     @Override
     public IPage<CsLocalDemoVo> queryPageList(CsLocalDemoDto csLocalDemoDto) {
 //        List<String> storeList = new ArrayList<>();
-//        if (!isNull(csLocalDemoDto.getStoreNo())) {
+//        if (!StringUtil.isEmpty(csLocalDemoDto.getStoreNo())) {
 //            storeList = Arrays.asList(csLocalDemoDto.getStoreNo().split(","));
 //        }
 
