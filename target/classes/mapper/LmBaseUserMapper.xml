@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.cslocalspringdemo.cs.mapper.LmBaseUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.cslocalspringdemo.cs.entity.LmBaseUser">
+        <id column="id" property="id"/>
+        <result column="is_delete" property="isDelete"/>
+        <result column="is_enabled" property="isEnabled"/>
+        <result column="create_id" property="createId"/>
+        <result column="create_name" property="createName"/>
+        <result column="create_time" property="createTime"/>
+        <result column="modify_id" property="modifyId"/>
+        <result column="modify_name" property="modifyName"/>
+        <result column="modify_time" property="modifyTime"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_age" property="userAge"/>
+        <result column="user_level" property="userLevel"/>
+    </resultMap>
+
+    <select id="queryPageList" resultType="com.example.cslocalspringdemo.cs.vo.LmBaseUserVo">
+        select t.*,
+        t2.base_user_id
+        from lm_base_user t
+        left join lm_base_user_detail t2 on t.id = t2.base_user_id
+        where 1=1
+        <if test="ew != null">
+            <if test="ew.nonEmptyOfWhere">
+                AND
+            </if>
+            ${ew.SqlSegment}
+        </if>
+        and t.is_delete = 0
+        and t.is_enabled = 0
+        order by t.create_time desc
+    </select>
+
+</mapper>

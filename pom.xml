@@ -18,12 +18,16 @@
     <properties>
         <argLine>-Defile.encoding=UTF-8</argLine>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <java.version>1.8</java.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <mybatis-plus.version>3.4.1</mybatis-plus.version>
         <freemarker.version>2.3.31</freemarker.version>
+        <encoding>UTF-8</encoding>
+        <spring.boot.version>2.3.2.RELEASE</spring.boot.version>
+        <spring.boot.admin.version>2.4.2</spring.boot.admin.version>
     </properties>
 
     <dependencies>
@@ -93,6 +97,17 @@
         </dependency>
 
         <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
             <version>5.7.2</version>
@@ -133,7 +148,7 @@
                 </configuration>
             </plugin>
         </plugins>
-
+        <finalName>CsYun</finalName>
         <resources>
             <!-- 解决mapper绑定异常 -->
             <resource>
@@ -163,6 +178,23 @@
                     <include>**/*.png</include>
                 </includes>
                 <filtering>false</filtering>
+            </resource>
+
+            <resource>
+                <directory>libs</directory>
+                <targetPath>BOOT-INF/libs/</targetPath>
+                <includes>
+                    <include>**/*.jar</include>
+                </includes>
+            </resource>
+            <!-- #读取resource文件夹下的所有文件 -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+                <!-- 配合maven多环境打包，使用maven profiles里面的参数 -->
+                <filtering>true</filtering>
             </resource>
         </resources>
     </build>

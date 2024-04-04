@@ -1,0 +1,14 @@
+#server:
+#  port: 8023
+#
+#spring:
+#  application:
+#    name: csYun
+#  profiles:
+#    active: yun
+#  datasource:
+#    master:
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#      url: jdbc:mysql://120.26.13.162:3306/cs_yun_mgr?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+#      username: root
+#      password: 123456

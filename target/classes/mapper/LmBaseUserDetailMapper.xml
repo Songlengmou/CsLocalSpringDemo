@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.cslocalspringdemo.cs.mapper.LmBaseUserDetailMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.cslocalspringdemo.cs.entity.LmBaseUserDetail">
+        <id column="id" property="id"/>
+        <result column="is_delete" property="isDelete"/>
+        <result column="is_enabled" property="isEnabled"/>
+        <result column="create_id" property="createId"/>
+        <result column="create_name" property="createName"/>
+        <result column="create_time" property="createTime"/>
+        <result column="modify_id" property="modifyId"/>
+        <result column="modify_name" property="modifyName"/>
+        <result column="modify_time" property="modifyTime"/>
+        <result column="base_user_id" property="baseUserId"/>
+    </resultMap>
+
+    <select id="getListByLmBaseUserId" resultType="com.example.cslocalspringdemo.cs.entity.LmBaseUserDetail">
+        select *
+        from lm_base_user_detail
+        where is_delete = 0
+          and is_enabled = 0
+          and base_user_id = #{lmBaseUserId}
+    </select>
+
+</mapper>

@@ -6,11 +6,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 
 import java.time.LocalDateTime;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -20,13 +17,12 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author Song
- * @since 2023-11-10
+ * @since 2024-04-03
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value = "CsLocalDemoDetail对象", description = "")
-@Builder
-public class CsLocalDemoDetail extends Model<CsLocalDemoDetail> {
+@ApiModel(value = "LmBaseUser对象", description = "")
+public class LmBaseUser extends Model<LmBaseUser> {
 
     private static final long serialVersionUID = 1L;
 
@@ -34,29 +30,37 @@ public class CsLocalDemoDetail extends Model<CsLocalDemoDetail> {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @ApiModelProperty(value = "逻辑删除")
-    private Integer isDeleted;
+    @ApiModelProperty(value = "是否删除(0未删1删除)")
+    private Integer isDelete;
 
-    @ApiModelProperty(value = "启用标志")
+    @ApiModelProperty(value = "是否启用(0启用1未启用)")
     private Integer isEnabled;
+
+    @ApiModelProperty(value = "创建人id")
+    private Integer createId;
+
+    @ApiModelProperty(value = "创建人姓名")
+    private String createName;
 
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
 
-    @ApiModelProperty(value = "创建人")
-    private String createName;
+    @ApiModelProperty(value = "修改人id")
+    private Integer modifyId;
+
+    @ApiModelProperty(value = "修改人姓名")
+    private String modifyName;
 
     @ApiModelProperty(value = "修改时间")
     private LocalDateTime modifyTime;
 
-    @ApiModelProperty(value = "修改人")
-    private String modifyName;
+    @ApiModelProperty(value = "用户名")
+    private String userName;
 
-    @ApiModelProperty(value = "等级名称")
-    @TableField("levelName")
-    private String levelName;
+    @ApiModelProperty(value = "年龄")
+    private Integer userAge;
 
-    @ApiModelProperty(value = "关联id")
-    private Integer csLocalDemoId;
+    @ApiModelProperty(value = "级别(会员member/普通ordinary)")
+    private String userLevel;
 
 }

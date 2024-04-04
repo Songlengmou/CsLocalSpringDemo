@@ -24,10 +24,10 @@ import java.util.Map;
 public class MybatisGenerator {
     //获取 项目绝对路径
     private static String canonicalPath = "";
-    private static String DBURL = "jdbc:mysql://localhost:3306/cs_local_spring_demo?useUnicode=true&characterEncoding=utf8";
+    private static String DBURL = "jdbc:mysql://120.26.13.162:3306/auth?useUnicode=true&characterEncoding=utf8";
     private static String DBUSER = "root";
-    private static String DBPWD = "songyp8023";
-    private static String[] TABLES = new String[]{"cs_local_demo_detail"};
+    private static String DBPWD = "syp8023";
+    private static String[] TABLES = new String[]{"lm_base_user","lm_base_user_detail"};
     private static String PACKAGE = "";
 
     public static void main(String[] args) {
