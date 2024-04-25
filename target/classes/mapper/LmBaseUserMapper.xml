@@ -35,4 +35,12 @@
         order by t.create_time desc
     </select>
 
+    <select id="getUserPwd" resultType="com.example.cslocalspringdemo.cs.entity.LmBaseUser">
+        select *
+        from lm_base_user
+        where user_name = #{userName}
+          and is_delete = 0
+          and is_enabled = 0
+    </select>
+
 </mapper>

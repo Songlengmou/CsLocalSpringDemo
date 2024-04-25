@@ -62,4 +62,12 @@ public class LmBaseUserDto extends PageInput {
     @ApiModelProperty(value = "级别(会员member/普通ordinary)")
     private String userLevel;
 
+    @ApiModelProperty(value = "用户密码")
+    private String userPwd;
+
+    @ApiModelProperty(value = "用户令牌")
+    private String userToken;
+
+    @ApiModelProperty(value = "授权类型")
+    private String grantType;
 }

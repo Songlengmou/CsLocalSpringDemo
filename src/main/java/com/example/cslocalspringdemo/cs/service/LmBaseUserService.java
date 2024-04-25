@@ -8,7 +8,7 @@ import com.example.cslocalspringdemo.cs.vo.LmBaseUserVo;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author Song
@@ -17,4 +17,6 @@ import com.example.cslocalspringdemo.cs.vo.LmBaseUserVo;
 public interface LmBaseUserService extends IService<LmBaseUser> {
 
     IPage<LmBaseUserVo> queryPageList(LmBaseUserDto lmBaseUserDto);
+
+    LmBaseUser getUserPwd(String userName);
 }

@@ -39,4 +39,9 @@ public class LmBaseUserServiceImpl extends ServiceImpl<LmBaseUserMapper, LmBaseU
                 .eq(!StringUtil.isEmpty(lmBaseUserDto.getUserName()), LmBaseUserVo::getUserName, lmBaseUserDto.getUserName());
         return this.baseMapper.queryPageList(ConventPage.getPage(lmBaseUserDto), wrapper);
     }
+
+    @Override
+    public LmBaseUser getUserPwd(String userName) {
+        return baseMapper.getUserPwd(userName);
+    }
 }

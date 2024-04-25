@@ -18,4 +18,6 @@ import org.apache.ibatis.annotations.Param;
 public interface LmBaseUserMapper extends BaseMapper<LmBaseUser> {
 
     <E extends IPage<LmBaseUserVo>> E queryPageList(E page, @Param("ew") Wrapper<LmBaseUserVo> queryWrapper);
+
+    LmBaseUser getUserPwd(String userName);
 }

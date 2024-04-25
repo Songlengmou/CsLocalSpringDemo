@@ -24,6 +24,10 @@ public class Response<T> implements Serializable {
         return ok(0, data, "");
     }
 
+    public static <T> Response<T> ok(String msg) {
+        return ok(0, null, msg);
+    }
+
     public static <T> Response<T> ok(T data, String msg) {
         return ok(0, data, msg);
     }

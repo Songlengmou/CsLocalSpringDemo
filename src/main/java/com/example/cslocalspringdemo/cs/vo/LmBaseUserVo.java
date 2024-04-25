@@ -62,6 +62,12 @@ public class LmBaseUserVo extends Model<LmBaseUserVo> {
     @ApiModelProperty(value = "级别(会员member/普通ordinary)")
     private String userLevel;
 
+    @ApiModelProperty(value = "用户密码")
+    private String userPwd;
+
+    @ApiModelProperty(value = "用户令牌")
+    private String userToken;
+
     @ApiModelProperty(value = "地址")
     private String address;
 

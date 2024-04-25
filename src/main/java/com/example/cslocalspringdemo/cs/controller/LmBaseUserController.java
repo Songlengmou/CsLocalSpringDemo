@@ -3,14 +3,14 @@ package com.example.cslocalspringdemo.cs.controller;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.example.cslocalspringdemo.common.Util.BeanUtil;
-import com.example.cslocalspringdemo.common.Util.StringUtil;
+import com.example.cslocalspringdemo.common.Util.*;
 import com.example.cslocalspringdemo.common.page.ConventPage;
 import com.example.cslocalspringdemo.common.page.PageOutput;
 import com.example.cslocalspringdemo.common.result.Response;
 import com.example.cslocalspringdemo.cs.dto.LmBaseUserDto;
 import com.example.cslocalspringdemo.cs.entity.LmBaseUser;
 import com.example.cslocalspringdemo.cs.entity.LmBaseUserDetail;
+import com.example.cslocalspringdemo.cs.granter.*;
 import com.example.cslocalspringdemo.cs.service.LmBaseUserDetailService;
 import com.example.cslocalspringdemo.cs.service.LmBaseUserService;
 import com.example.cslocalspringdemo.cs.vo.LmBaseUserDetailVo;
@@ -18,6 +18,7 @@ import com.example.cslocalspringdemo.cs.vo.LmBaseUserVo;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -59,10 +60,12 @@ public class LmBaseUserController {
         LmBaseUser lmBaseUser = BeanUtil.copy(lmBaseUserDto, LmBaseUser.class);
         lmBaseUser.setModifyTime(LocalDateTime.now());
         lmBaseUser.setCreateId(4);
-        lmBaseUser.setCreateName("李四");
+        lmBaseUser.setCreateName("钱七");
+        //初始密码：123456
+        lmBaseUser.setUserPwd(DigestUtils.md5DigestAsHex(lmBaseUserDto.getUserPwd().getBytes()));
         result = lmBaseUserService.save(lmBaseUser);
         if (!result) {
-            return Response.notOk(500, "操作失败");
+            return Response.notOk("操作失败");
         }
         //detail
         if (!isNull(lmBaseUser.getId())) {
@@ -72,7 +75,7 @@ public class LmBaseUserController {
             lmBaseUserDetail.setBaseUserId(Math.toIntExact(lmBaseUser.getId()));
             result = lmBaseUserDetailService.save(lmBaseUserDetail);
             if (!result) {
-                return Response.notOk(500, "操作失败");
+                return Response.notOk("操作失败");
             }
         }
         return Response.ok("操作成功");
@@ -82,7 +85,7 @@ public class LmBaseUserController {
      * 查询
      */
     @GetMapping("/getPageList")
-    @ApiOperation(value = "分页 * 接口", notes = "Counter")
+    @ApiOperation(value = "分页 * 接口", notes = "")
     public Response<PageOutput<LmBaseUserVo>> getPageList(LmBaseUserDto lmBaseUserDto) {
         IPage<LmBaseUserVo> pageList = lmBaseUserService.queryPageList(lmBaseUserDto);
         List<LmBaseUserVo> lmBaseUserVos = BeanUtil.copyList(pageList.getRecords(), LmBaseUserVo.class);
@@ -109,7 +112,7 @@ public class LmBaseUserController {
         LmBaseUserDetail detailServiceOne = lmBaseUserDetailService.getOne(wrapper);
         LmBaseUserDetailVo lmBaseUserDetailVo = BeanUtil.copy(detailServiceOne, LmBaseUserDetailVo.class);
         lmBaseUserVo.setLmBaseUserDetailVo(lmBaseUserDetailVo);
-        return Response.ok(lmBaseUserVo);
+        return Response.ok(lmBaseUserVo, "success");
     }
 
     /**
@@ -164,7 +167,7 @@ public class LmBaseUserController {
         if (result) {
             return Response.ok("修改成功");
         }
-        return Response.notOk(500, "修改失败");
+        return Response.notOk("修改失败");
     }
 
     /**
@@ -177,7 +180,7 @@ public class LmBaseUserController {
         if (lmBaseUserService.removeById(byIdLmBaseUser)) {
             return Response.ok("删除成功");
         }
-        return Response.notOk(500, "删除失败");
+        return Response.notOk("删除失败");
     }
 
     /**
@@ -194,6 +197,66 @@ public class LmBaseUserController {
         if (lmBaseUserService.updateById(byIdLmBaseUser)) {
             return Response.ok("启用成功");
         }
-        return Response.notOk(500, "启用失败");
+        return Response.notOk("启用失败");
+    }
+
+    /**
+     * 登录
+     */
+    @PostMapping("/login")
+    @ApiOperation(value = "登录", notes = "")
+    public Response<Object> login(@RequestBody LmBaseUserDto lmBaseUserDto) {
+        checkArgument(!Objects.isNull(lmBaseUserDto.getUserName()), "用户名不能为空");
+        checkArgument(!Objects.isNull(lmBaseUserDto.getUserPwd()), "用户密码不能为空");
+        LmBaseUser lmBaseUser = lmBaseUserService.getUserPwd(lmBaseUserDto.getUserName());
+        if (isNull(lmBaseUser)) {
+            return Response.notOk("用户不存在");
+        }
+        // 密码匹配
+        if (lmBaseUserDto.getUserPwd().equals(lmBaseUser.getUserPwd())) {
+            if (isNull(lmBaseUser.getUserToken())) {
+                //生成Token
+                lmBaseUser.setUserToken(TokenGenerator.generateToken(lmBaseUserDto.getUserName()));
+                lmBaseUserService.updateById(lmBaseUser);
+            }
+            return Response.ok(lmBaseUser, "登录成功");
+        }
+        return Response.notOk("登录失败");
+    }
+
+    /**
+     * 注册
+     */
+    @PostMapping("/registerUser")
+    @ApiOperation(value = "注册", notes = "")
+    private Response<Object> registerCsData(@RequestBody LmBaseUserDto lmBaseUserDto) {
+        checkArgument(!Objects.isNull(lmBaseUserDto.getUserName()), "用户名不能为空");
+        checkArgument(!Objects.isNull(lmBaseUserDto.getUserPwd()), "用户密码不能为空");
+        LmBaseUser isExitUser = lmBaseUserService.getUserPwd(lmBaseUserDto.getUserName());
+        if (!isNull(isExitUser)) {
+            return Response.notOk("用户已存在");
+        }
+        boolean result;
+        LmBaseUser lmBaseUser = BeanUtil.copy(lmBaseUserDto, LmBaseUser.class);
+        lmBaseUser.setModifyTime(LocalDateTime.now());
+        lmBaseUser.setCreateId(5);
+        lmBaseUser.setCreateName("郑八");
+        lmBaseUser.setUserPwd(DigestUtils.md5DigestAsHex(lmBaseUserDto.getUserPwd().getBytes()));
+        result = lmBaseUserService.save(lmBaseUser);
+        if (!result) {
+            return Response.notOk("注册失败");
+        }
+        //detail
+        if (!isNull(lmBaseUser.getId())) {
+            LmBaseUserDetail lmBaseUserDetail = new LmBaseUserDetail();
+            lmBaseUserDetail.setCreateId(5);
+            lmBaseUserDetail.setCreateName("郑八");
+            lmBaseUserDetail.setBaseUserId(Math.toIntExact(lmBaseUser.getId()));
+            result = lmBaseUserDetailService.save(lmBaseUserDetail);
+            if (!result) {
+                return Response.notOk("注册失败");
+            }
+        }
+        return Response.ok("注册成功");
     }
 }
