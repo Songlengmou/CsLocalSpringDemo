@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -27,6 +28,8 @@ import java.sql.*;
 @Slf4j
 //定时任务
 @EnableScheduling
+//开启swagger
+@EnableSwagger2
 public class CsLocalSpringDemoApplication {
 
     public static void main(String[] args) {

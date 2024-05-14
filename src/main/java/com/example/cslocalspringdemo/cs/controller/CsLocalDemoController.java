@@ -17,6 +17,7 @@ import com.example.cslocalspringdemo.cs.service.CsLocalDemoDetailService;
 import com.example.cslocalspringdemo.cs.service.CsLocalDemoService;
 import com.example.cslocalspringdemo.cs.vo.CsLocalDemoDetailVo;
 import com.example.cslocalspringdemo.cs.vo.CsLocalDemoVo;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +43,7 @@ import static java.util.Objects.isNull;
 @Slf4j
 @AllArgsConstructor
 @RequestMapping("/csLocalSpringDemo/csLocalDemo")
+@Api(tags = "用户")
 public class CsLocalDemoController {
 
     @Resource
@@ -57,7 +59,7 @@ public class CsLocalDemoController {
      * 新增
      */
     @PostMapping("/addCsUser")
-    @ApiOperation(value = "新增", notes = "")
+    @ApiOperation(value = "新增用户", notes = "")
     private Response addCsData(@RequestBody CsLocalDemoDto csLocalDemoDto) {
         checkArgument(!Objects.isNull(csLocalDemoDto), "缺少必传参数");
         //方法一：BeanUtil.copy
@@ -95,7 +97,7 @@ public class CsLocalDemoController {
      * 查询
      */
     @GetMapping("/getPageList")
-    @ApiOperation(value = "分页 * 接口", notes = "Counter")
+    @ApiOperation(value = "用户分页 * 接口", notes = "Counter")
     public Response<PageOutput<CsLocalDemoVo>> getPageList(CsLocalDemoDto csLocalDemoDto) {
         IPage<CsLocalDemoVo> pageList = csLocalDemoService.queryPageList(csLocalDemoDto);
         List<CsLocalDemoVo> csUserVos = BeanUtil.copyList(pageList.getRecords(), CsLocalDemoVo.class);
@@ -111,14 +113,14 @@ public class CsLocalDemoController {
      * 明细
      */
     @GetMapping("/detail/{id}")
-    @ApiOperation(value = "明细1", notes = "")
+    @ApiOperation(value = "用户明细1", notes = "")
     public Response<CsLocalDemoVo> getBrokerById(@PathVariable Long id) {
         CsLocalDemoVo csUserVo = csLocalDemoService.getListById(id);
         return Response.ok(csUserVo);
     }
 
     @GetMapping("/detailTwo/{id}")
-    @ApiOperation(value = "明细2", notes = "")
+    @ApiOperation(value = "用户明细2", notes = "")
     public Response<CsLocalDemoVo> getBrokerTwoById(@PathVariable Long id) {
         checkArgument(!Objects.isNull(id), "id不能为空");
         CsLocalDemo csLocalDemoById = csLocalDemoService.getById(id);
@@ -127,7 +129,7 @@ public class CsLocalDemoController {
 //        Wrapper<CsLocalDemoDetail> wrapper = Wrappers.<CsLocalDemoDetail>query().lambda()
 //                .eq(CsLocalDemoDetail::getCsLocalDemoId, csLocalDemoById.getId());
         //或
-        QueryWrapper<CsLocalDemoDetail> wrapper=new QueryWrapper<>();
+        QueryWrapper<CsLocalDemoDetail> wrapper = new QueryWrapper<>();
         wrapper.eq("cs_local_demo_id", csLocalDemoById.getId());
 
         //1.使用Mapper
@@ -145,7 +147,7 @@ public class CsLocalDemoController {
      * 修改
      */
     @PostMapping("/updateCsUser")
-    @ApiOperation(value = "修改", notes = "")
+    @ApiOperation(value = "用户修改", notes = "")
     private Response updateCsData(@RequestBody CsLocalDemoDto csLocalDemoDto) {
         checkArgument(!Objects.isNull(csLocalDemoDto), "缺少必传参数");
         CsLocalDemo byIdCsUser = csLocalDemoService.getById(csLocalDemoDto.getId());
@@ -197,7 +199,7 @@ public class CsLocalDemoController {
      * 真实删除
      */
     @DeleteMapping("/delCsUser/{id}")
-    @ApiOperation(value = "真实删除", notes = "")
+    @ApiOperation(value = "真实删除用户", notes = "")
     public Response del(@PathVariable Long id) {
         CsLocalDemo csUser = csLocalDemoService.getById(id);
         if (csLocalDemoService.removeById(csUser)) {
@@ -210,7 +212,7 @@ public class CsLocalDemoController {
      * 是否启用
      */
     @PutMapping("/isEnabledCsUser/{id}")
-    @ApiOperation(value = "是否启用", notes = "")
+    @ApiOperation(value = "用户是否启用", notes = "")
     public Response cancel(@PathVariable Long id) {
         CsLocalDemo csUser = csLocalDemoService.getById(id);
         csUser.setIsEnabled(0);
