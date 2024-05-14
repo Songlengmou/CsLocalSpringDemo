@@ -5,6 +5,7 @@ import com.example.cslocalspringdemo.common.redis.RedisUtil;
 import com.example.cslocalspringdemo.common.result.Response;
 import com.example.cslocalspringdemo.cs.entity.SystemConfig;
 import com.example.cslocalspringdemo.cs.service.LmBaseUserDetailService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 @Slf4j
 @AllArgsConstructor
 @RequestMapping("/auth/lmBaseUserDetail")
+@Api(tags = "用户明细")
 public class LmBaseUserDetailController {
 
     private final static String REDIS_KEY_PREFIX = "system:config:";
@@ -50,7 +52,7 @@ public class LmBaseUserDetailController {
      * 新增
      */
     @PostMapping("/addRedis")
-    @ApiOperation(value = "redis", notes = "")
+    @ApiOperation(value = "新增redis", notes = "")
     public Response addRedis(@RequestBody SystemConfig systemConfig) {
         checkArgument(!Objects.isNull(systemConfig), "缺少必传参数");
         if (redisConfigEntity.isEnabled()) {
@@ -63,7 +65,7 @@ public class LmBaseUserDetailController {
      * 根据key获取value
      */
     @GetMapping("/getSystemConfig/{configKey}")
-    @ApiOperation(value = "redis", notes = "")
+    @ApiOperation(value = "redis根据key获取value", notes = "")
     public Response getSystemConfig(@PathVariable String configKey) {
         checkArgument(!Objects.isNull(configKey), "缺少redisKey");
         if (redisConfigEntity.isEnabled()) {
@@ -77,7 +79,7 @@ public class LmBaseUserDetailController {
      * 获取所有对应的key和value
      */
     @GetMapping("/getSystemConfigAll")
-    @ApiOperation(value = "redis", notes = "")
+    @ApiOperation(value = "redis获取所有对应的key和value", notes = "")
     public Response getSystemConfigAll() {
         if (redisConfigEntity.isEnabled()) {
             Jedis jedis = new Jedis(redisConfigEntity.getRedisHost(), redisConfigEntity.getRedisPort());

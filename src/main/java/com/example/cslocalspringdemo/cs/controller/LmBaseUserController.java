@@ -15,6 +15,7 @@ import com.example.cslocalspringdemo.cs.service.LmBaseUserDetailService;
 import com.example.cslocalspringdemo.cs.service.LmBaseUserService;
 import com.example.cslocalspringdemo.cs.vo.LmBaseUserDetailVo;
 import com.example.cslocalspringdemo.cs.vo.LmBaseUserVo;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +42,7 @@ import static java.util.Objects.isNull;
 @Slf4j
 @AllArgsConstructor
 @RequestMapping("/auth/lmBaseUser")
+@Api(tags = "用户")
 public class LmBaseUserController {
 
     @Resource
@@ -53,7 +55,7 @@ public class LmBaseUserController {
      * 新增
      */
     @PostMapping("/addUser")
-    @ApiOperation(value = "新增", notes = "")
+    @ApiOperation(value = "新增用户", notes = "")
     private Response<Object> addCsData(@RequestBody LmBaseUserDto lmBaseUserDto) {
         checkArgument(!Objects.isNull(lmBaseUserDto), "缺少必传参数");
         boolean result;
@@ -85,7 +87,7 @@ public class LmBaseUserController {
      * 查询
      */
     @GetMapping("/getPageList")
-    @ApiOperation(value = "分页 * 接口", notes = "")
+    @ApiOperation(value = "用户分页 * 接口", notes = "")
     public Response<PageOutput<LmBaseUserVo>> getPageList(LmBaseUserDto lmBaseUserDto) {
         IPage<LmBaseUserVo> pageList = lmBaseUserService.queryPageList(lmBaseUserDto);
         List<LmBaseUserVo> lmBaseUserVos = BeanUtil.copyList(pageList.getRecords(), LmBaseUserVo.class);
@@ -101,7 +103,7 @@ public class LmBaseUserController {
      * 明细
      */
     @GetMapping("/detail/{id}")
-    @ApiOperation(value = "明细", notes = "")
+    @ApiOperation(value = "用户明细", notes = "")
     public Response<LmBaseUserVo> getLmBaseUserById(@PathVariable Long id) {
         checkArgument(!Objects.isNull(id), "id不能为空");
         LmBaseUser lmBaseUserServiceById = lmBaseUserService.getById(id);
@@ -119,7 +121,7 @@ public class LmBaseUserController {
      * 修改
      */
     @PostMapping("/updateUser")
-    @ApiOperation(value = "修改", notes = "")
+    @ApiOperation(value = "用户修改", notes = "")
     private Response<Object> updateUser(@RequestBody LmBaseUserDto lmBaseUserDto) {
         checkArgument(!Objects.isNull(lmBaseUserDto), "缺少必传参数");
         LmBaseUser byIdUser = lmBaseUserService.getById(lmBaseUserDto.getId());
@@ -174,7 +176,7 @@ public class LmBaseUserController {
      * 真实删除
      */
     @DeleteMapping("/delUser/{id}")
-    @ApiOperation(value = "真实删除", notes = "")
+    @ApiOperation(value = "真实删除用户", notes = "")
     public Response<Object> delUser(@PathVariable Long id) {
         LmBaseUser byIdLmBaseUser = lmBaseUserService.getById(id);
         if (lmBaseUserService.removeById(byIdLmBaseUser)) {
@@ -187,7 +189,7 @@ public class LmBaseUserController {
      * 是否启用
      */
     @PutMapping("/isEnabledUser/{id}")
-    @ApiOperation(value = "是否启用", notes = "")
+    @ApiOperation(value = "用户是否启用", notes = "")
     public Response<Object> isEnabledUser(@PathVariable Long id) {
         LmBaseUser byIdLmBaseUser = lmBaseUserService.getById(id);
         byIdLmBaseUser.setIsEnabled(1);
@@ -204,7 +206,7 @@ public class LmBaseUserController {
      * 登录
      */
     @PostMapping("/login")
-    @ApiOperation(value = "登录", notes = "")
+    @ApiOperation(value = "用户登录", notes = "")
     public Response<Object> login(@RequestBody LmBaseUserDto lmBaseUserDto) {
         checkArgument(!Objects.isNull(lmBaseUserDto.getUserName()), "用户名不能为空");
         checkArgument(!Objects.isNull(lmBaseUserDto.getUserPwd()), "用户密码不能为空");
@@ -228,7 +230,7 @@ public class LmBaseUserController {
      * 注册
      */
     @PostMapping("/registerUser")
-    @ApiOperation(value = "注册", notes = "")
+    @ApiOperation(value = "用户注册", notes = "")
     private Response<Object> registerCsData(@RequestBody LmBaseUserDto lmBaseUserDto) {
         checkArgument(!Objects.isNull(lmBaseUserDto.getUserName()), "用户名不能为空");
         checkArgument(!Objects.isNull(lmBaseUserDto.getUserPwd()), "用户密码不能为空");
