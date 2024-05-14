@@ -20,8 +20,8 @@ spring:
     active: yun
   datasource:
     dynamic:
-#      primary: yun
-#      seata: true
+      #      primary: yun
+      #      seata: true
       datasource:
         master:
           driver-class-name: com.mysql.cj.jdbc.Driver
@@ -34,7 +34,7 @@ mybatis-plus:
   mapper-locations: classpath*:mapper/**/*.xml
   configuration:
     map-underscore-to-camel-case: true
-#    日志控制台打印
+    #    日志控制台打印
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 # PageHelper分页插件
@@ -49,3 +49,17 @@ swagger:
   enabled: true
   # 请求前缀
   pathMapping: /dev-api
+
+redis:
+  enabled: true
+  host: 120.26.13.162
+  port: 6379
+  timeout: 2000
+  password: 199501
+  # 默认0,第一个
+  database: 0
+  pool:
+    minIdle: 1
+    maxIdle: 10
+    maxWait: 3
+    maxActive: 8
