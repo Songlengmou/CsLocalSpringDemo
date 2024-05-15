@@ -9,7 +9,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -20,7 +19,6 @@ import java.net.UnknownHostException;
 @Slf4j
 @RestController
 @SpringBootApplication
-@EnableSwagger2
 public class CsLocalSpringDemoApplication {
 
     public static void main(String[] args) throws UnknownHostException {
