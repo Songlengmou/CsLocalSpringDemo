@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  * Swagger2.0的接口配置
- * 2.0的访问页面：http://localhost:8023/swagger-ui.html
+ * 2.0的访问页面：http://localhost:8080/swagger-ui.html
  */
 @Configuration
 @EnableSwagger2
@@ -48,7 +48,7 @@ public class SwaggerConfig {
                 //指定路径处理PathSelectors.any()代表所有的路径
                 .paths(PathSelectors.any())
                 .build()
-//                .securitySchemes(securitySchemes())
+                .securitySchemes(securitySchemes())
 //                .pathMapping(pathMapping)
                 ;
     }
