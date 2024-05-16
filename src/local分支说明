@@ -1,0 +1,5 @@
+如果因为程序包导致运行报错，可以尝试勾选以下选项后，再次运行
+Build,Execution,Deployment -> Build Tools -> Maven -> Runner 里勾选第一个
+Delegate IDE build/run actions to Maven
+
+全部成功后，记得关闭项目的时候再把它取消勾选，否则每次在运行maven工程时默认编译所有模块,效率非常差，运行非常慢，不建议长期使用
