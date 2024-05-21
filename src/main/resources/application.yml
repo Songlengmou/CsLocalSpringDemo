@@ -67,3 +67,9 @@ redis:
     maxIdle: 10
     maxWait: 3
     maxActive: 8
+
+alioss:
+  accessKey: 3d68e60c2a8565ddafaf
+  secretKey: 1553d03b1383e036710f420d63c6b5d86ecf59fa
+  endpoint: oos-sdqd.ctyunapi.cn
+  bucketname: test-oss
